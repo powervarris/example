@@ -5,39 +5,54 @@ namespace TanITELEC1C.Controllers
 {
     public class InstructorController : Controller
     {
-
-        List<Instructor> InstructorList = new List<Instructor>()
+        List<Instructor> InstructorList = new List<Instructor>
         {
-
             new Instructor()
             {
-
-                InstructorName = "Gabriel Montano", DateHired = DateTime.Now,
-                InstructorEmail = "gdmontano@ust.edu.ph", Rank = Rank.Instructor
-
+                Id= 1,FirstName = "Gabriel", LastName = "Montano", Rank = Rank.Professor, HiringDate = DateTime.Parse("24/01/2020"), IsTenured = true
             },
-
             new Instructor()
             {
-
-                InstructorName = "Leo Lintag", DateHired = DateTime.Parse("25/3/2000"),
-                InstructorEmail = "Llintage@ust.edu.ph", Rank = Rank.AsstProf
-
+                Id= 2,FirstName = "Beatriz", LastName = "Lacsamana", Rank = Rank.AssistantProfessor, HiringDate = DateTime.Parse("17/04/2017"), IsTenured = false
             },
-
             new Instructor()
             {
-
-                InstructorName = "Zyx Montano", DateHired = DateTime.Parse("25/3/2000"),
-                InstructorEmail = "zmontano@ust.edu.ph", Rank = Rank.Prof
-
-
-            },
-
+                Id= 3,FirstName = "Ronina", LastName = "Tayuan", Rank = Rank.AssociateProfessor, HiringDate = DateTime.Parse("12/07/2019"), IsTenured = false
+            }
         };
         public IActionResult Index()
         {
+
             return View(InstructorList);
         }
+
+        public IActionResult ShowDetail(int id)
+        {
+            //Search for the student whose id matches the given id
+            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+
+            if (instructor != null)//was an student found?
+                return View(instructor);
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IActionResult AddInstructor()
+        {
+
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult AddInstructor(Instructor newinstructor)
+        {
+
+            InstructorList.Add(newinstructor);
+            return View("Index", InstructorList);
+
+        }
+
     }
 }
